@@ -39,7 +39,6 @@ type LevelSelectorProps = {
 
 export function LevelSelector({ levels }: LevelSelectorProps) {
   const [levelId, setLevelId] = useState<string>();
-
   const [levelName, setLevelName] = useState("");
 
   const [x, setX] = useState<number | "">(0);
@@ -57,6 +56,7 @@ export function LevelSelector({ levels }: LevelSelectorProps) {
 
   return (
     <section className="flex flex-col space-y-2 px-4 grow">
+      {/* Allows user to select and input name for the level section */}
       <Input
         className="w-48"
         value={levelName}
@@ -120,6 +120,7 @@ export function LevelSelector({ levels }: LevelSelectorProps) {
           Save
         </Button>
       </div>
+      {/* Allows user to select segments for the level */}
       <div className="flex items-center justify-start gap-x-4">
         <div className="flex flex-col space-y-2">
           <Label htmlFor="segment-a">A.</Label>
@@ -193,6 +194,7 @@ export function LevelSelector({ levels }: LevelSelectorProps) {
               </SelectContent>
             </Select>
           </div>
+          {/* User can place boxes on the coordinate grid with the 2 input boxes on the right and they are able to drag and move them around */}
           <div className="flex items-start gap-x-8">
             <main
               ref={containerRef}
@@ -248,9 +250,12 @@ export function LevelSelector({ levels }: LevelSelectorProps) {
                 />
               </div>
               <Button
-                onClick={() =>
-                  setPoints([...points, [x === "" ? 0 : x, y === "" ? 0 : y]])
-                }
+                onClick={() => {
+                  setPoints([...points, [x === "" ? 0 : x, y === "" ? 0 : y]]);
+
+                  setX("");
+                  setY("");
+                }}
               >
                 Position
               </Button>
