@@ -1,4 +1,4 @@
-import { edenTreaty } from "@elysiajs/eden";
+import { treaty } from "@elysiajs/eden";
 import type { App } from "backend";
 
-export const api = edenTreaty<App>("http://0.0.0.0:8080/");
+export const api = treaty<App>("http://0.0.0.0:8080/");

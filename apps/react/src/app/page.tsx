@@ -1,34 +1,22 @@
-"use client";
-
 import { api } from "libs";
+import { LevelSelector } from "./components/level-selector";
 
-export default function Page() {
-  // api.get() api request
+export default async function MainPage() {
+  const { data: levels, error } = await api.levels.get();
+
+  if (error) {
+    return <div>Failed to load levels</div>;
+  }
+
+  console.log(levels);
+
   return (
-    <main className="space-y-2 px-4 py-2 m-8">
-      <header className="border border-yellow-400">
-        <h1>DRUNKEN DUCK LEVEL EDITOR</h1>
+    <main className="h-screen overflow-hidden flex flex-col space-y-2">
+      <header className="shrink-0 border-b-2 border-black py-2 text-2xl px-4">
+        <h1>Drunken Duck Level Editor</h1>
       </header>
-      <h2 className="border bg-yellow-400 border-black">Level Overview</h2>
-      <div className="flex items-center gap-x-2">
-        {/*  api request levels */}
-        <select>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-        <button
-          className="bg-emerald-400 text-blue-400 font-bold px-4 py-2 border-red-400 border"
-          onClick={async () => {
-            console.log("save level");
-            await api.save.post({ level: "1" });
-          }}
-        >
-          save
-        </button>
-      </div>
+      <h2 className="text-lg px-4 shrink-0">Level Overview</h2>
+      <LevelSelector levels={levels ?? []} />
     </main>
   );
 }

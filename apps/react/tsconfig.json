@@ -1,5 +1,22 @@
 {
   "extends": "tsconfig/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": [
+      "ESNext",
+      "dom"
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
   "include": [
     "next-env.d.ts",
     "**/*.ts",

@@ -1,15 +1,20 @@
-import { ReactNode } from 'react'
+/// <reference types="bun-types" />
+/// <reference lib="dom" />
+/// <reference lib="dom.iterable" />
 
-import Provider from './provider'
-import 'tailwindcss/tailwind.css'
+import { ReactNode } from "react";
+
+import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-    return (
-        <html>
-            <head></head>
-            <body>
-                <Provider>{children}</Provider>
-            </body>
-        </html>
-    )
+  return (
+    <html>
+      <head></head>
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
 }
