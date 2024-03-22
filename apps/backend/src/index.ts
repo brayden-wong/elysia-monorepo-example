@@ -12,6 +12,7 @@ import { eq } from "drizzle-orm";
 const app = new Elysia()
   .use(cors())
   .use(database)
+  /* Deletes all records in the database */
   .get("/", async ({ db }) => {
     const levels = await db.query.levels.findMany({ with: { points: true } });
 
@@ -20,6 +21,7 @@ const app = new Elysia()
       await db.delete(point).where(eq(point.levelId, level.id));
     }
   })
+  /* Returns all level records */
   .get(
     "/levels",
     async ({ db }) =>
@@ -29,10 +31,13 @@ const app = new Elysia()
         },
       })
   )
+  /*  Saves a new record if the level cannot be found by name
+      
+      If a record is found then it will update the points
+  */
   .post(
     "/save",
     async ({ db, body: { name, points } }) => {
-      console.log(name, points);
       const result = await db.transaction(async (tx) => {
         const level = await tx.query.levels.findFirst({
           where: eq(levels.name, name),
@@ -55,16 +60,12 @@ const app = new Elysia()
           .values({ name })
           .returning({ id: levels.id });
 
-        console.log("Level ID", levelId.id);
-
         for (const [x, y] of points) {
           await tx.insert(point).values({ levelId: levelId.id, x, y });
         }
 
         return levelId.id;
       });
-
-      console.log("Level saved", result);
 
       return { id: result };
     },
